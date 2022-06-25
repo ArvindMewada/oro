@@ -313,7 +313,7 @@ kycDialogOpenWidget(BuildContext context) {
                   ),
                   Container(
                       width: MediaQuery.of(context).size.width,
-                      height: 60.h,
+                      height: 50.h,
                       decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.grey.shade400,
@@ -323,7 +323,7 @@ kycDialogOpenWidget(BuildContext context) {
                               const BorderRadius.all(Radius.circular(4))),
                       child: const Text(language)),
                   SizedBox(
-                    height: 3.h,
+                    height: 2.h,
                   ),
                   Row(
                     children: [
