@@ -1,13 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
+import 'package:oro_sample/home_module/screens/home_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class KycFullScreenDialog extends StatefulWidget {
-  const KycFullScreenDialog({Key? key}) : super(key: key);
+  final String language;
+
+  const KycFullScreenDialog({Key? key, required this.language})
+      : super(key: key);
 
   @override
   _KycFullScreenDialogState createState() => _KycFullScreenDialogState();
@@ -16,11 +22,14 @@ class KycFullScreenDialog extends StatefulWidget {
 class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
   String urlPDFPath = "";
   bool exists = true;
-  int _totalPages = 0;
+  final int _totalPages = 0;
   int _currentPage = 0;
+
   bool pdfReady = false;
   late PDFViewController _pdfViewController;
   bool loaded = false;
+
+  String englishUrl = "http://www.africau.edu/images/default/sample.pdf";
 
   Future<File> getFileFromUrl(String url, {name}) async {
     var fileName = 'testonline';
@@ -32,7 +41,6 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
       var bytes = data.bodyBytes;
       var dir = await getApplicationDocumentsDirectory();
       File file = File("${dir.path}/" + fileName + ".pdf");
-      print(dir.path);
       File urlFile = await file.writeAsBytes(bytes);
       return urlFile;
     } catch (e) {
@@ -40,17 +48,38 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
     }
   }
 
-  void requestPersmission() async {
+  void requestPermission() async {
     await PermissionHandler().requestPermissions([PermissionGroup.storage]);
   }
 
   @override
   void initState() {
-    requestPersmission();
-    getFileFromUrl("http://www.africau.edu/images/default/sample.pdf").then(
+    requestPermission();
+
+    if (widget.language == "Hindi") {
+      setState(() {
+        englishUrl =
+            "https://freehomedelivery.net/wp-content/uploads/2018/07/3-2_Hindi-SET-2.pdf";
+      });
+    } else if (widget.language == "Tamil") {
+      setState(() {
+        englishUrl = "http://wbbse.org/Files/TAMIL_SAMPLE_QUESTION_2011_I.pdf";
+      });
+    } else if (widget.language == "Kannada") {
+      setState(() {
+        englishUrl =
+            "https://atimysore.gov.in/wp-content/uploads/h-b-of-executive-magistrates.pdf";
+      });
+    } else {
+      setState(() {
+        englishUrl = "http://www.africau.edu/images/default/sample.pdf";
+      });
+    }
+
+    getFileFromUrl(englishUrl).then(
       (value) => {
         setState(() {
-          if (value != null) {
+          if (value.path.isNotEmpty) {
             urlPDFPath = value.path;
             loaded = true;
             exists = true;
@@ -65,22 +94,22 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
 
   @override
   Widget build(BuildContext context) {
-    print(urlPDFPath);
+    // final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
+    // final counterModel = Provider.of<MyCounter>(context);
+    // final firstNotifier = Provider.of<Counter>(context, listen: true);
+    
     if (loaded) {
       return Scaffold(
         body: PDFView(
           filePath: urlPDFPath,
-          autoSpacing: true,
+          autoSpacing: false,
           enableSwipe: true,
           pageSnap: true,
           swipeHorizontal: true,
           nightMode: false,
-          onError: (e) {
-            //Show some error message or UI
-          },
+          onError: (e) {},
           onRender: (_pages) {
             setState(() {
-              // _totalPages = _pages;
               pdfReady = true;
             });
           },
@@ -90,9 +119,7 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
             });
           },
           onPageChanged: (page, _) {
-            setState(() {
-              // _currentPage = page;
-            });
+            setState(() {});
           },
           onPageError: (page, e) {},
         ),
@@ -100,8 +127,8 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.chevron_left),
-              iconSize: 50,
+              icon: const Icon(Icons.chevron_left),
+              iconSize: 24,
               color: Colors.black,
               onPressed: () {
                 setState(() {
@@ -113,12 +140,11 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
               },
             ),
             Text(
-              "${_currentPage + 1}/$_totalPages",
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              "${context.watch<Counter>().count}",
             ),
             IconButton(
-              icon: Icon(Icons.chevron_right),
-              iconSize: 50,
+              icon: const Icon(Icons.chevron_right),
+              iconSize: 24,
               color: Colors.black,
               onPressed: () {
                 setState(() {
@@ -134,40 +160,26 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
       );
     } else {
       if (exists) {
-        //Replace with your loading UI
-        return Scaffold(
-          appBar: AppBar(
-            title: Text("Demo"),
-          ),
-          body: Text(
-            "Loading..",
-            style: TextStyle(fontSize: 20),
+        return const Scaffold(
+          body: Center(
+            child: Text(
+              "Loading..",
+              style: TextStyle(fontSize: 20),
+            ),
           ),
         );
       } else {
         //Replace Error UI
         return Scaffold(
           appBar: AppBar(
-            title: Text("Demo"),
+            title: const Text("Demo"),
           ),
-          body: Text(
+          body: const Text(
             "PDF Not Available",
             style: TextStyle(fontSize: 20),
           ),
         );
       }
     }
-  }
-}
-
-class SomeDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: const Text('Dialog Magic'),
-      ),
-      body: new Text("It's a Dialog!"),
-    );
   }
 }

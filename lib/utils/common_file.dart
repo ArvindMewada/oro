@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:oro_sample/home_module/widgets/home_widget.dart';
+import 'package:oro_sample/locker_content_module/screens/locker_content_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '/utils/string.dart';
 import 'image_assets_file.dart';
 
-class UtilsCommon{
-
-    appBarTextStyle(color, size, weight) {
+class UtilsCommon {
+  appBarTextStyle(color, size, weight) {
     return TextStyle(color: color, fontSize: size, fontWeight: weight);
   }
 
@@ -19,15 +20,18 @@ class UtilsCommon{
     );
   }
 
-    Text textWidgetPlan(
-        String text, double fontSize, FontWeight weight, Color color) {
-      return Text(
-        text.toUpperCase(),
-        textAlign: TextAlign.center,
-        style: TextStyle(color: color, fontSize: fontSize, fontWeight: weight,
-        fontStyle: FontStyle.normal),
-      );
-    }
+  Text textWidgetPlan(
+      String text, double fontSize, FontWeight weight, Color color) {
+    return Text(
+      text.toUpperCase(),
+      textAlign: TextAlign.center,
+      style: TextStyle(
+          color: color,
+          fontSize: fontSize,
+          fontWeight: weight,
+          fontStyle: FontStyle.normal),
+    );
+  }
 
   Widget customButton() {
     return Center(
@@ -38,13 +42,12 @@ class UtilsCommon{
               color: const Color(0xffFFE1A8),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: textWidget(
-                viewGold, 10, FontWeight.w700, Colors.black)),
+            child: textWidget(viewGold, 10, FontWeight.w700, Colors.black)),
       ),
     );
   }
 
-  Widget customGradientButton(text ,Function onPressed, bool isHomeScreen) {
+  Widget customGradientButton(text, Function onPressed, bool isHomeScreen) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.w),
       width: double.infinity,
@@ -55,9 +58,13 @@ class UtilsCommon{
           ),
           borderRadius: BorderRadius.circular(24)),
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(primary: Colors.transparent ,elevation: 0 ,  shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ), ),
+        style: ElevatedButton.styleFrom(
+          primary: Colors.transparent,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+        ),
         onPressed: () {
           onPressed();
         },
@@ -71,48 +78,9 @@ class UtilsCommon{
       ),
     );
   }
-  
 }
 
-PreferredSizeWidget appBarHomeScreen() {
-  return AppBar(
-    leading: const Icon(Icons.menu),
-    // leadingWidth: 100,
-    automaticallyImplyLeading: true,
-    centerTitle: true,
-    backgroundColor: Colors.grey[100],
-    iconTheme:const  IconThemeData(color: Colors.black),
-    title: Image.asset(
-      appIcon,
-      height: 50.0,
-      width: 50.0,
-    ),
-    elevation: 0,
-    actions: <Widget>[
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        child: Row(
-          children: const [
-            Icon(
-              Icons.location_on,
-              color: Colors.yellow,
-            ),
-            SizedBox(
-              width: 6,
-            ),
-            Text(
-              eKyc,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 14),
-            ),
-          ],
-        ),
-      ),
-    ],
-  );
-}
+
 
 class DashedLineVerticalPainter extends CustomPainter {
   @override

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oro_sample/home_module/bloc/home_bloc_bloc.dart';
-import 'package:oro_sample/home_module/bloc/home_bloc_event.dart';
-import 'package:oro_sample/home_module/bloc/home_bloc_state.dart';
-import 'package:oro_sample/home_module/data_model/stored_item.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '/kyc_module/screens/kyc_full_screen_dialog.dart';
 import '/locker_content_module/screens/locker_content_screen.dart';
 import '/utils/color_theme.dart';
 import '/utils/common_file.dart';
@@ -78,7 +75,7 @@ Widget homeTitleBarWidget(BuildContext context, String titleValue) {
   );
 }
 
-Widget topBarView(BuildContext context) {
+Widget currentDorrStpeTopBarViewWidget(BuildContext context) {
   return Container(
     height: 23.h,
     padding: const EdgeInsets.all(16),
@@ -143,7 +140,11 @@ Widget rightTopKycFullWidget(BuildContext context) {
             ),
           ),
           onPressed: () async {
-            kycDialogOpenWidget(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                    const LockerContentScreen()));
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -221,178 +222,4 @@ class LeftTopKycVerticalWidget extends StatelessWidget {
   }
 }
 
-String dropdownValue = 'English';
-
-var itemsValueLanguageList = [
-  'English',
-  'Tamil',
-  'Hindi',
-];
-
-kycDialogOpenWidget(BuildContext context) {
-  showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          elevation: 8,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0)), //this right here
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 3.h,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          kycHeader,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color(yellowApp),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: DropdownButton(
-                            value: dropdownValue,
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.black),
-                            icon: const Icon(
-                              Icons.language,
-                              size: 12,
-                            ),
-                            items: itemsValueLanguageList.map((String items) {
-                              return DropdownMenuItem(
-                                  value: items,
-                                  child: Text(
-                                    items,
-                                    style: const TextStyle(
-                                        fontSize: 12, color: Colors.black),
-                                  ));
-                            }).toList(),
-                            onChanged: (newValue) {},
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 3.h,
-                  ),
-                  Text(
-                    readKyc,
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: Colors.black54,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(
-                    height: 3.h,
-                  ),
-                  const Divider(
-                    color: Colors.black,
-                    height: 1,
-                    thickness: 1,
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50.h,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey.shade400,
-                            width: 14,
-                          ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(4))),
-                      child: const Text(language)),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 12),
-                            decoration: BoxDecoration(
-                              color: const Color(yellowApp),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              cancelButton,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 3.w,
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LockerContentScreen()));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 12),
-                            decoration: BoxDecoration(
-                              color: const Color(0xffFFE1A8),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              confirmButtonKyc,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      });
-}
 

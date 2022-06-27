@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'home_module/bloc/home_bloc_bloc.dart';
@@ -29,13 +30,15 @@ class MyApp extends StatelessWidget {
             backgroundColor: Colors.grey[200],
             brightness: Brightness.light,
           ),
-          home: MultiBlocProvider(
+          home: MultiProvider(
             providers: [
+              ChangeNotifierProvider(create: (_) => Counter()),
+              // BlocProvider(
+              //   create: (_) => CounterBloc(),
+              // ),
               BlocProvider(
                 create: (context) => StoredItemsBloc(
                  storedItemRepo: StoredItemServices()),
-              // BlocProvider<BlocB>(
-              //   create: (BuildContext context) => BlocB(context.bloc<BlocA>()),
               ),
             ],
             child: const HomeScreen(),
@@ -44,4 +47,7 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+
 }
+
+
