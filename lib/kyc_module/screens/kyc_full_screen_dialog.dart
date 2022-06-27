@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
+import 'package:oro_sample/utils/network.dart';
 import 'package:path_provider/path_provider.dart';
 
 class KycFullScreenDialog extends StatefulWidget {
@@ -18,166 +19,89 @@ class KycFullScreenDialog extends StatefulWidget {
 }
 
 class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
-  String urlPDFPath = "";
   bool exists = true;
-  final int _totalPages = 0;
-  int _currentPage = 0;
 
   bool pdfReady = false;
-  late PDFViewController _pdfViewController;
   bool loaded = false;
 
-  String englishUrl = "http://www.africau.edu/images/default/sample.pdf";
 
-  Future<File> getFileFromUrl(String url, {name}) async {
-    var fileName = 'testonline';
-    if (name != null) {
-      fileName = name;
-    }
-    try {
-      var data = await http.get(url);
-      var bytes = data.bodyBytes;
-      var dir = await getApplicationDocumentsDirectory();
-      File file = File("${dir.path}/" + fileName + ".pdf");
-      File urlFile = await file.writeAsBytes(bytes);
-      return urlFile;
-    } catch (e) {
-      throw Exception("Error opening url file");
-    }
-  }
 
   @override
   void initState() {
-    
-    getFileFromUrl(englishUrl, name: "Engslish").then(
-          (value) => {
-            setState(() {
-              if (value.path.isNotEmpty) {
-                urlPDFPath = value.path;
-                loaded = true;
-                exists = true;
-              } else {
-                exists = false;
-              }
-            })
-          },
-        );
-
-   
     super.initState();
   }
 
+  String language =
+      "A wrapper around InheritedWidget to make them easier to use and more reusable."
+      "By using provider instead of manually writing InheritedWidget, you get:"
+      "simplified allocation/disposal of resources"
+      "lazy-loading";
+
+  String hindi =
+      "InheritedWidget के चारों ओर एक आवरण जो उन्हें उपयोग में आसान और अधिक पुन: प्रयोज्य बनाता है।"
+      "InheritedWidget को मैन्युअल रूप से लिखने के बजाय प्रदाता का उपयोग करके, आपको मिलता है:"
+      "सरलीकृत आवंटन/संसाधनों का निपटान"
+      "धीरे लोड हो रहा है";
+
+  String tamil =
+      "இன்ஹெரிட்டட் விட்ஜெட்டைச் சுற்றி ஒரு ரேப்பர் பயன்படுத்துவதை எளிதாக்கவும், மேலும் மீண்டும் பயன்படுத்தக்கூடியதாகவும் இருக்கும்."
+      "InheritedWidget ஐ கைமுறையாக எழுதுவதற்குப் பதிலாக வழங்குநரைப் பயன்படுத்துவதன் மூலம், நீங்கள் பெறுவீர்கள்:"
+      "எளிமைப்படுத்தப்பட்ட ஒதுக்கீடு/வளங்களை அகற்றுதல்"
+      "சோம்பேறி-ஏற்றுதல்";
+
+  String canada =
+      "ಅವುಗಳನ್ನು ಬಳಸಲು ಸುಲಭವಾಗುವಂತೆ ಮತ್ತು ಹೆಚ್ಚು ಮರುಬಳಕೆ ಮಾಡುವಂತೆ ಮಾಡಲು InheritedWidget ಸುತ್ತಲೂ ಒಂದು ಹೊದಿಕೆ."
+      "InheritedWidget ಅನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ಬರೆಯುವ ಬದಲು ಒದಗಿಸುವವರನ್ನು ಬಳಸುವ ಮೂಲಕ, ನೀವು ಪಡೆಯುತ್ತೀರಿ:"
+      "ಸಂಪನ್ಮೂಲಗಳ ಸರಳೀಕೃತ ಹಂಚಿಕೆ/ವಿಲೇವಾರಿ"
+      "ಸೋಮಾರಿತನ-ಲೋಡ್";
+
   @override
   Widget build(BuildContext context) {
-     widget.controller.addListener(() {
+    widget.controller.addListener(() {
       if (widget.controller.text == "Hindi") {
-        getFileFromUrl(
-                "https://freehomedelivery.net/wp-content/uploads/2018/07/3-2_Hindi-SET-2.pdf",
-                name: "Hindi")
-            .then(
-          (value) => {
-            setState(() {
-              if (value.path.isNotEmpty) {
-                urlPDFPath = value.path;
-                loaded = true;
-                exists = true;
-              } else {
-                exists = false;
-              }
-            })
-          },
-        );
+        setState(() {
+          if (widget.controller.text != null) {
+            loaded = true;
+            exists = true;
+          } else {
+            exists = false;
+          }
+        });
       } else if (widget.controller.text == "Tamil") {
-        getFileFromUrl(
-                "http://wbbse.org/Files/TAMIL_SAMPLE_QUESTION_2011_I.pdf",
-                name: "Tamil")
-            .then(
-          (value) => {
-            setState(() {
-              if (value.path.isNotEmpty) {
-                urlPDFPath = value.path;
-                loaded = true;
-                exists = true;
-              } else {
-                exists = false;
-              }
-            })
-          },
-        );
+         setState(() {
+          if (widget.controller.text != null) {
+            loaded = true;
+            exists = true;
+          } else {
+            exists = false;
+          }
+        });
       } else if (widget.controller.text == "Kannada") {
-        getFileFromUrl(
-                "https://atimysore.gov.in/wp-content/uploads/h-b-of-executive-magistrates.pdf",
-                name: "Kannada")
-            .then(
-          (value) => {
-            setState(() {
-              if (value.path.isNotEmpty) {
-                urlPDFPath = value.path;
-                loaded = true;
-                exists = true;
-              } else {
-                exists = false;
-              }
-            })
-          },
-        );
+         setState(() {
+          if (widget.controller.text != null) {
+            loaded = true;
+            exists = true;
+          } else {
+            exists = false;
+          }
+        });
       } else if (widget.controller.text == "English") {
-        getFileFromUrl(
-                englishUrl,
-                name: "English")
-            .then(
-          (value) => {
-            setState(() {
-              if (value.path.isNotEmpty) {
-                urlPDFPath = value.path;
-                loaded = true;
-                exists = true;
-              } else {
-                exists = false;
-              }
-            })
-          },
-        );
-      } 
+        setState(() {
+          if (widget.controller.text != null) {
+            loaded = true;
+            exists = true;
+          } else {
+            exists = false;
+          }
+        });
+      }
     });
 
     if (loaded) {
       return Scaffold(
-        body: body(),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.chevron_left),
-              iconSize: 24,
-              color: Colors.black,
-              onPressed: () {
-                setState(() {
-                  if (_currentPage > 0) {
-                    _currentPage--;
-                    _pdfViewController.setPage(_currentPage);
-                  }
-                });
-              },
-            ),
-            Text(
-              '$_currentPage',
-              key: const Key('counterState'),
-            ),
-            IconButton(
-              icon: const Icon(Icons.chevron_right),
-              iconSize: 24,
-              color: Colors.black,
-              onPressed: () {
-                setState(() {
-                  if (_currentPage < _totalPages - 1) {
-                    _currentPage++;
-                    _pdfViewController.setPage(_currentPage);
-                  }
-                });
-              },
-            ),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: body(),
         ),
       );
     } else {
@@ -206,28 +130,12 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
   }
 
   Widget body() {
-    return PDFView(
-      filePath: urlPDFPath,
-      autoSpacing: false,
-      enableSwipe: true,
-      pageSnap: true,
-      swipeHorizontal: true,
-      nightMode: false,
-      onError: (e) {},
-      onRender: (_pages) {
-        setState(() {
-          pdfReady = true;
-        });
-      },
-      onViewCreated: (PDFViewController vc) {
-        setState(() {
-          _pdfViewController = vc;
-        });
-      },
-      onPageChanged: (page, _) {
-        setState(() {});
-      },
-      onPageError: (page, e) {},
-    );
+    return widget.controller.text == "Hindi"
+        ? Text(hindi)
+        : widget.controller.text == "Tamil"
+            ? Text(tamil)
+            : widget.controller.text == "Kannada"
+                ? Text(canada)
+                : Text(language);
   }
 }
