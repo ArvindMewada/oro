@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oro_sample/home_module/bloc/home_bloc_bloc.dart';
+import 'package:oro_sample/home_module/bloc/home_bloc_event.dart';
+import 'package:oro_sample/home_module/bloc/home_bloc_state.dart';
+import 'package:oro_sample/home_module/data_model/stored_item.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '/locker_content_module/screens/locker_content_screen.dart';
@@ -391,33 +396,3 @@ kycDialogOpenWidget(BuildContext context) {
       });
 }
 
-class WhereLockerListBuilderWidget extends StatelessWidget {
-  const WhereLockerListBuilderWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
-      height: 15.h,
-      child: Expanded(
-        child: ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          itemCount: 5,
-          itemBuilder: (BuildContext context, int index) => Card(
-              child: ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              galleryImage,
-              width: 37.w,
-              height: 5.h,
-              fit: BoxFit.fitHeight,
-            ),
-          )),
-        ),
-      ),
-    );
-  }
-}

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import 'home_module/bloc/home_bloc_bloc.dart';
+import 'home_module/repository/home_screen_repository.dart';
 import 'home_module/screens/home_screen.dart';
 
 void main() {
@@ -19,13 +22,24 @@ class MyApp extends StatelessWidget {
           title: 'Oro Sample',
           theme: ThemeData(
             primarySwatch: Colors.grey,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
             appBarTheme: AppBarTheme(
               backgroundColor: Colors.grey[200],
             ),
             backgroundColor: Colors.grey[200],
             brightness: Brightness.light,
           ),
-          home: const HomeScreen(),
+          home: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => StoredItemsBloc(
+                 storedItemRepo: StoredItemServices()),
+              // BlocProvider<BlocB>(
+              //   create: (BuildContext context) => BlocB(context.bloc<BlocA>()),
+              ),
+            ],
+            child: const HomeScreen(),
+          ),
         );
       },
     );

@@ -77,8 +77,8 @@ class UtilsCommon{
 PreferredSizeWidget appBarHomeScreen() {
   return AppBar(
     leading: const Icon(Icons.menu),
-    leadingWidth: 100,
-    automaticallyImplyLeading: false,
+    // leadingWidth: 100,
+    automaticallyImplyLeading: true,
     centerTitle: true,
     backgroundColor: Colors.grey[100],
     iconTheme:const  IconThemeData(color: Colors.black),
