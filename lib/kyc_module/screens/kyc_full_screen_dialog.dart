@@ -121,9 +121,26 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
             })
           },
         );
+      } else if (widget.controller.text == "English") {
+        getFileFromUrl(
+                englishUrl,
+                name: "English")
+            .then(
+          (value) => {
+            setState(() {
+              if (value.path.isNotEmpty) {
+                urlPDFPath = value.path;
+                loaded = true;
+                exists = true;
+              } else {
+                exists = false;
+              }
+            })
+          },
+        );
       } 
     });
-    
+
     if (loaded) {
       return Scaffold(
         body: body(),
