@@ -210,9 +210,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     dropDownState(() {
                                       dropdownValue = value.toString();
                                       controller.text =  dropdownValue;
-                                      // setState(() {
-                                     
-                                      // });
                                     });
                                   },
                                 );
@@ -234,15 +231,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
-                      height: 3.h,
+                      height: 2.h,
                     ),
                     const Divider(
-                      color: Colors.black,
+                      color: Colors.grey,
                       height: 1,
                       thickness: 1,
                     ),
-                    const SizedBox(
-                      height: 8,
+                     SizedBox(
+                     height: 2.h,
                     ),
                     Container(
                         width: MediaQuery.of(context).size.width,

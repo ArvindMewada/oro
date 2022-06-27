@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class KycFullScreenDialog extends StatefulWidget {
   final String language;
@@ -47,41 +46,36 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
     }
   }
 
-  void requestPermission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.storage]);
-  }
-
   @override
   void initState() {
-    requestPermission();
-     getFileFromUrl(englishUrl, name: "Engslish").then(
-      (value) => {
-        setState(() {
-          if (value.path.isNotEmpty) {
-            urlPDFPath = value.path;
-            loaded = true;
-            exists = true;
-          } else {
-            exists = false;
-          }
-        })
-      },
-    );
+    
+    getFileFromUrl(englishUrl, name: "Engslish").then(
+          (value) => {
+            setState(() {
+              if (value.path.isNotEmpty) {
+                urlPDFPath = value.path;
+                loaded = true;
+                exists = true;
+              } else {
+                exists = false;
+              }
+            })
+          },
+        );
+
+   
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    widget.controller.addListener(() {
+     widget.controller.addListener(() {
       if (widget.controller.text == "Hindi") {
-         print("hinid");
         getFileFromUrl(
-                "https://freehomedelivery.net/wp-content/uploads/2018/07/3-2_Hindi-SET-2.pdf", name: "Hindi")
+                "https://freehomedelivery.net/wp-content/uploads/2018/07/3-2_Hindi-SET-2.pdf",
+                name: "Hindi")
             .then(
           (value) => {
-           
             setState(() {
               if (value.path.isNotEmpty) {
                 urlPDFPath = value.path;
@@ -94,12 +88,11 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
           },
         );
       } else if (widget.controller.text == "Tamil") {
-         print("English");
         getFileFromUrl(
-                "http://wbbse.org/Files/TAMIL_SAMPLE_QUESTION_2011_I.pdf", name: "Tamil")
+                "http://wbbse.org/Files/TAMIL_SAMPLE_QUESTION_2011_I.pdf",
+                name: "Tamil")
             .then(
           (value) => {
-            
             setState(() {
               if (value.path.isNotEmpty) {
                 urlPDFPath = value.path;
@@ -112,12 +105,11 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
           },
         );
       } else if (widget.controller.text == "Kannada") {
- print("tamile");
         getFileFromUrl(
-                "https://atimysore.gov.in/wp-content/uploads/h-b-of-executive-magistrates.pdf", name: "Kannada")
+                "https://atimysore.gov.in/wp-content/uploads/h-b-of-executive-magistrates.pdf",
+                name: "Kannada")
             .then(
           (value) => {
-            
             setState(() {
               if (value.path.isNotEmpty) {
                 urlPDFPath = value.path;
@@ -129,33 +121,12 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
             })
           },
         );
-      }
+      } 
     });
+    
     if (loaded) {
       return Scaffold(
-        body: PDFView(
-          filePath: urlPDFPath,
-          autoSpacing: false,
-          enableSwipe: true,
-          pageSnap: true,
-          swipeHorizontal: true,
-          nightMode: false,
-          onError: (e) {},
-          onRender: (_pages) {
-            setState(() {
-              pdfReady = true;
-            });
-          },
-          onViewCreated: (PDFViewController vc) {
-            setState(() {
-              _pdfViewController = vc;
-            });
-          },
-          onPageChanged: (page, _) {
-            setState(() {});
-          },
-          onPageError: (page, e) {},
-        ),
+        body: body(),
         floatingActionButton: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
@@ -215,5 +186,31 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
         );
       }
     }
+  }
+
+  Widget body() {
+    return PDFView(
+      filePath: urlPDFPath,
+      autoSpacing: false,
+      enableSwipe: true,
+      pageSnap: true,
+      swipeHorizontal: true,
+      nightMode: false,
+      onError: (e) {},
+      onRender: (_pages) {
+        setState(() {
+          pdfReady = true;
+        });
+      },
+      onViewCreated: (PDFViewController vc) {
+        setState(() {
+          _pdfViewController = vc;
+        });
+      },
+      onPageChanged: (page, _) {
+        setState(() {});
+      },
+      onPageError: (page, e) {},
+    );
   }
 }
