@@ -127,13 +127,14 @@ class _HomeScreenState extends State<HomeScreen> {
   kycDialogOpenWidget(BuildContext context) {
     showDialog(
         context: context,
-        builder: (BuildContext contx) {
+        builder: (BuildContext ctx) {
           return Dialog(
+            key: const Key('counterStateBuilder'),
             elevation: 8,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
             child: SizedBox(
-              height: MediaQuery.of(contx).size.height,
+              height: MediaQuery.of(ctx).size.height,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -207,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     dropDownState(() {
                                       setState(() {
                                         dropdownValue = value.toString();
-                                        context.read<Counter>().increment();
+                                        // ctx.read<Counter>().increment();
                                       });
                                     });
                                   },
@@ -242,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Container(
                         width: MediaQuery.of(context).size.width,
-                        height: 50.h,
+                        height: 60.h,
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: Colors.grey.shade400,
@@ -254,29 +255,36 @@ class _HomeScreenState extends State<HomeScreen> {
                           language: dropdownValue,
                         )),
                     SizedBox(
-                      height: 3.h,
+                      height: 6.h,
                     ),
+
                     Row(
                       children: [
                         Expanded(
+                          flex: 1,
                           child: GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
                             },
-                            child: Container(
+                            child:Container(
+                              height: 4.h,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 12),
                               decoration: BoxDecoration(
-                                color: const Color(yellowApp),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                cancelButton,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500),
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                    ),
+                                    borderRadius: const BorderRadius.all(Radius.circular(20))
+                                ),
+                              child: Center(
+                                child: Text(
+                                  cancelButton,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ),
                             ),
                           ),
@@ -285,24 +293,28 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: 3.w,
                         ),
                         Expanded(
+                          flex: 2,
                           child: GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
                             },
                             child: Container(
+                              height: 4.h,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 12),
                               decoration: BoxDecoration(
                                 color: const Color(0xffFFE1A8),
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Text(
-                                confirmButtonKyc,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w500),
+                              child: Center(
+                                child: Text(
+                                  confirmButtonKyc,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ),
                             ),
                           ),
@@ -316,6 +328,8 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         });
   }
+
+  
 
   Widget lockerSpaceVideoWidget() {
     return Container(

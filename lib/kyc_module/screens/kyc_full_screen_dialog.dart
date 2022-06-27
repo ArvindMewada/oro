@@ -94,10 +94,6 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
 
   @override
   Widget build(BuildContext context) {
-    // final CounterBloc counterBloc = BlocProvider.of<CounterBloc>(context);
-    // final counterModel = Provider.of<MyCounter>(context);
-    // final firstNotifier = Provider.of<Counter>(context, listen: true);
-    
     if (loaded) {
       return Scaffold(
         body: PDFView(
@@ -140,7 +136,8 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
               },
             ),
             Text(
-              "${context.watch<Counter>().count}",
+              '$_currentPage',
+              key: const Key('counterState'),
             ),
             IconButton(
               icon: const Icon(Icons.chevron_right),
