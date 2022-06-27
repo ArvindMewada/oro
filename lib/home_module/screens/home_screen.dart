@@ -7,6 +7,7 @@ import 'package:oro_sample/kyc_module/screens/kyc_full_screen_dialog.dart';
 import 'package:oro_sample/utils/color_theme.dart';
 import 'package:oro_sample/utils/image_assets_file.dart';
 import 'package:oro_sample/utils/network.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:video_player/video_player.dart';
 
@@ -24,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   VideoPlayerController? _controller;
   String dropdownValue = 'English';
-
+  TextEditingController controller = TextEditingController();
   var itemsValueLanguageList = [
     'English',
     'Tamil',
@@ -173,9 +174,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               padding:
                                   const EdgeInsets.only(left: 10, right: 2),
                               child: StatefulBuilder(builder:
-                                  (BuildContext context,
+                                  (BuildContext ctx,
                                       StateSetter dropDownState) {
                                 return DropdownButton<String>(
+                                  key: const Key('increment_floatingActionButton'),
                                   value: dropdownValue,
                                   elevation: 0,
                                   enableFeedback: true,
@@ -206,10 +208,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   }).toList(),
                                   onChanged: (value) {
                                     dropDownState(() {
-                                      setState(() {
-                                        dropdownValue = value.toString();
-                                        // ctx.read<Counter>().increment();
-                                      });
+                                      dropdownValue = value.toString();
+                                      controller.text =  dropdownValue;
+                                      // setState(() {
+                                     
+                                      // });
                                     });
                                   },
                                 );
@@ -252,7 +255,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(4))),
                         child: KycFullScreenDialog(
-                          language: dropdownValue,
+                          controller: controller,
+                          language: controller.text.toString(),
                         )),
                     SizedBox(
                       height: 6.h,
@@ -292,6 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           width: 3.w,
                         ),
+                        
                         Expanded(
                           flex: 2,
                           child: GestureDetector(
@@ -410,16 +415,4 @@ class DoorStepLockerWidgets extends StatelessWidget {
                   fontWeight: FontWeight.w400))),
     );
   }
-}
-
-class Counter with ChangeNotifier{
-  int _count = 0;
-
-  int get count => _count;
-
-  void increment() {
-    _count++;
-    notifyListeners();
-  }
-
 }

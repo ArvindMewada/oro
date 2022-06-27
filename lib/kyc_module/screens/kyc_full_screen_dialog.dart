@@ -1,18 +1,17 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
-import 'package:oro_sample/home_module/screens/home_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
 
 class KycFullScreenDialog extends StatefulWidget {
   final String language;
+  final TextEditingController controller;
 
-  const KycFullScreenDialog({Key? key, required this.language})
+  const KycFullScreenDialog(
+      {Key? key, required this.language, required this.controller})
       : super(key: key);
 
   @override
@@ -55,28 +54,7 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
   @override
   void initState() {
     requestPermission();
-
-    if (widget.language == "Hindi") {
-      setState(() {
-        englishUrl =
-            "https://freehomedelivery.net/wp-content/uploads/2018/07/3-2_Hindi-SET-2.pdf";
-      });
-    } else if (widget.language == "Tamil") {
-      setState(() {
-        englishUrl = "http://wbbse.org/Files/TAMIL_SAMPLE_QUESTION_2011_I.pdf";
-      });
-    } else if (widget.language == "Kannada") {
-      setState(() {
-        englishUrl =
-            "https://atimysore.gov.in/wp-content/uploads/h-b-of-executive-magistrates.pdf";
-      });
-    } else {
-      setState(() {
-        englishUrl = "http://www.africau.edu/images/default/sample.pdf";
-      });
-    }
-
-    getFileFromUrl(englishUrl).then(
+     getFileFromUrl(englishUrl, name: "Engslish").then(
       (value) => {
         setState(() {
           if (value.path.isNotEmpty) {
@@ -92,8 +70,67 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
     super.initState();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    widget.controller.addListener(() {
+      if (widget.controller.text == "Hindi") {
+         print("hinid");
+        getFileFromUrl(
+                "https://freehomedelivery.net/wp-content/uploads/2018/07/3-2_Hindi-SET-2.pdf", name: "Hindi")
+            .then(
+          (value) => {
+           
+            setState(() {
+              if (value.path.isNotEmpty) {
+                urlPDFPath = value.path;
+                loaded = true;
+                exists = true;
+              } else {
+                exists = false;
+              }
+            })
+          },
+        );
+      } else if (widget.controller.text == "Tamil") {
+         print("English");
+        getFileFromUrl(
+                "http://wbbse.org/Files/TAMIL_SAMPLE_QUESTION_2011_I.pdf", name: "Tamil")
+            .then(
+          (value) => {
+            
+            setState(() {
+              if (value.path.isNotEmpty) {
+                urlPDFPath = value.path;
+                loaded = true;
+                exists = true;
+              } else {
+                exists = false;
+              }
+            })
+          },
+        );
+      } else if (widget.controller.text == "Kannada") {
+ print("tamile");
+        getFileFromUrl(
+                "https://atimysore.gov.in/wp-content/uploads/h-b-of-executive-magistrates.pdf", name: "Kannada")
+            .then(
+          (value) => {
+            
+            setState(() {
+              if (value.path.isNotEmpty) {
+                urlPDFPath = value.path;
+                loaded = true;
+                exists = true;
+              } else {
+                exists = false;
+              }
+            })
+          },
+        );
+      }
+    });
     if (loaded) {
       return Scaffold(
         body: PDFView(

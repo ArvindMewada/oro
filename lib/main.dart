@@ -32,10 +32,6 @@ class MyApp extends StatelessWidget {
           ),
           home: MultiProvider(
             providers: [
-              ChangeNotifierProvider(create: (_) => Counter()),
-              // BlocProvider(
-              //   create: (_) => CounterBloc(),
-              // ),
               BlocProvider(
                 create: (context) => StoredItemsBloc(
                  storedItemRepo: StoredItemServices()),
