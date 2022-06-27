@@ -24,8 +24,6 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
   bool pdfReady = false;
   bool loaded = false;
 
-
-
   @override
   void initState() {
     super.initState();
@@ -68,7 +66,7 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
           }
         });
       } else if (widget.controller.text == "Tamil") {
-         setState(() {
+        setState(() {
           if (widget.controller.text != null) {
             loaded = true;
             exists = true;
@@ -77,7 +75,7 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
           }
         });
       } else if (widget.controller.text == "Kannada") {
-         setState(() {
+        setState(() {
           if (widget.controller.text != null) {
             loaded = true;
             exists = true;
@@ -97,37 +95,14 @@ class _KycFullScreenDialogState extends State<KycFullScreenDialog> {
       }
     });
 
-    if (loaded) {
-      return Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: body(),
-        ),
-      );
-    } else {
-      if (exists) {
-        return const Scaffold(
-          body: Center(
-            child: Text(
-              "Loading..",
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-        );
-      } else {
-        //Replace Error UI
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text("Demo"),
-          ),
-          body: const Text(
-            "PDF Not Available",
-            style: TextStyle(fontSize: 20),
-          ),
-        );
-      }
-    }
+  return  Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: body(),
+      ),
+    );
   }
+
 
   Widget body() {
     return widget.controller.text == "Hindi"
